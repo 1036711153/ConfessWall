@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/id_toolbar"
+        app:title="Love Wall"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/btn_back"
+        android:alpha="1"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/id_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AlertDialog.AppCompat.Light"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"/>
+        <com.cjj.MaterialRefreshLayout
+            android:id="@+id/mRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:overlay="true"
+            app:wave_show="true"
+            app:progress_colors="@array/material_colors"
+            app:wave_color="#00ffffff"
+            app:isLoadMore="true"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </com.cjj.MaterialRefreshLayout>
+
+    </RelativeLayout>
+</LinearLayout>

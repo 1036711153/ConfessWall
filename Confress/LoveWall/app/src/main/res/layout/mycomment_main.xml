@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/id_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="1"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/btn_back"
+        app:title="Love Wall" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.cjj.MaterialRefreshLayout
+            android:id="@+id/mRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:isLoadMore="true"
+            app:overlay="true"
+            app:progress_colors="@array/material_colors"
+            app:wave_color="#00ffffff"
+            app:wave_show="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </com.cjj.MaterialRefreshLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#00ffffff"
+            android:gravity="center_vertical">
+            <EditText
+                android:id="@+id/comment_msg"
+                android:background="@drawable/base_edit_input"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"/>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_to_send"></android.support.design.widget.FloatingActionButton>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

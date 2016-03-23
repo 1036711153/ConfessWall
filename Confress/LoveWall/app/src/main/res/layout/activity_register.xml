@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f2f5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#1786BC">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="注册页面"
+            android:textColor="@color/White"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        style="@style/Register_Input"
+        android:layout_marginTop="20dip">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="账号:"
+            android:textColor="#212424"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/username"
+            style="@style/Register_Edit"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ"
+            android:hint="@string/login_username_hint" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/Register_Input">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:text="密码："
+            android:textColor="#212424"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/psd"
+            style="@style/Register_Edit"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ"
+            android:hint="@string/login_password_hint"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/Register_Input">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="确认密码："
+            android:textColor="#212424"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/config_psd"
+            style="@style/Register_Edit"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ"
+            android:hint="请在此确定密码..."
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/Register_Input">
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="邮箱地址："
+            android:textColor="#212424"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/Register_Edit"
+            android:hint="请输入您的邮箱..."
+            android:inputType="textEmailAddress" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/base_action_bar_height"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@drawable/btn_login_selector"
+        android:text="@string/register"
+        android:textColor="@color/White"
+        android:textSize="@dimen/text_size_large" />
+
+    <ProgressBar
+        android:id="@+id/register_progress"
+        style="@style/Base.Animation.AppCompat.Dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
+</LinearLayout>

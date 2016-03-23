@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg" >
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#1786BC">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="找回密码"
+            android:textColor="@color/White"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/login_logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/base_action_bar_height"
+                android:background="#00000000"
+                android:drawableLeft="@drawable/ic_dialog_email"
+                android:drawablePadding="25dip"
+                android:hint="请输入您的邮箱..."
+                android:paddingLeft="15dip"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:textColorHint="@color/Gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/base_horization_line" />
+
+            
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/base_action_bar_height"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:background="@drawable/btn_login_selector"
+            android:gravity="center"
+            android:text="邮箱找回"
+            android:textColor="@color/White"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dip"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        <ProgressBar
+            android:id="@+id/id_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.Animation.AppCompat.Dialog"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

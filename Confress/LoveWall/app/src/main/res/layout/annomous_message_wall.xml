@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="匿名独白"
+            android:textColor="@color/White"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_chat_send_selector2" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_mid_bg">
+
+            <EditText
+                android:id="@+id/message_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="true"
+                android:gravity="top"
+                android:hint="说出你的内心真言....."
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="8"
+                android:textColor="@color/Black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/id_progress"
+            style="@style/AlertDialog.AppCompat.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+
+</LinearLayout>

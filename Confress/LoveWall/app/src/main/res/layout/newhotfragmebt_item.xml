@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EFF6FA"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_mid_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/wall"
+                    imagecontrol:civ_border_width="1dp"
+                    imagecontrol:civ_border_color="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="同道大叔"
+                        android:textColor="#E54017"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/update_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11-25 20:32:30"
+                        android:textColor="#E54017"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/id_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/confess_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="把你的心给我一小部分，把我的整个拿去！冰雪冷却不了我对你的热爱，台风吹散不走我对你的思念，喧哗淹没不了我的对你的心声，黑暗掩盖不了我对你的深情。不是因为寂寞才想你，而是因为想你才寂寞。"
+                    android:textColor="@color/Gray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/confess_image"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/jinzhancheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/collection"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    imagecontrol:cardCornerRadius="1dp"
+                    imagecontrol:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/collection_image"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_menu_star" />
+
+                        <TextView
+                            android:id="@+id/collection_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="30dp"
+                            android:gravity="center"
+                            android:text="100"
+                            android:textColor="#746F6F"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/message"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    imagecontrol:cardCornerRadius="1dp"
+                    imagecontrol:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/message_iamge"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/message_menu" />
+
+                        <TextView
+                            android:id="@+id/message_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="30dp"
+                            android:gravity="center"
+                            android:text="46"
+                            android:textColor="#746F6F"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/support"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    imagecontrol:cardCornerRadius="1dp"
+                    imagecontrol:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/support_image"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/radar_card_people_good_highlighted" />
+
+                        <TextView
+                            android:id="@+id/support_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="30dp"
+                            android:gravity="center"
+                            android:text="78"
+                            android:textColor="#746F6F"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

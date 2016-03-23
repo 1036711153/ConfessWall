@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRICKS"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/mRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:isLoadMore="true"
+        app:overlay="true"
+        app:progress_colors="@array/material_colors"
+        app:wave_color="#00ffffff"
+        app:wave_show="true">
+
+        <ListView
+            android:id="@+id/mListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="#00000000"
+            android:listSelector="#00000000"
+            android:scrollbars="none"></ListView>
+    </com.cjj.MaterialRefreshLayout>
+
+
+</LinearLayout>

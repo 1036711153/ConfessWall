@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.confress.lovewall"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
+    compile 'cn.bmob.android:bmob-sdk:3.4.5'
+    compile 'cn.bmob.android:bmob-push:0.6'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.4.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.cjj.materialrefeshlayout:library:1.3.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.kanytu:android-parallax-recyclerview:v1.7'
+    compile 'com.google.code.gson:gson:2.2.4'
+
+    compile "com.android.support:support-v4:+"
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+}

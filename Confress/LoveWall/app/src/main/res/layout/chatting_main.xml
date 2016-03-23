@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pagerwall"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:src="@drawable/btn_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="纸条"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin">
+
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/friend_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/wall"
+                        app:civ_border_width="1dp"
+                        app:civ_border_color="@color/white" />
+
+                <TextView
+                    android:id="@+id/friend_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="同道大叔"
+                    android:textColor="#E54017"
+                    android:textSize="15sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/tricks"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:enabled="true"
+                    android:gravity="center"
+                    android:hint="写下您的悄悄话！"
+                    android:inputType="textMultiLine"
+                    android:maxEms="200"
+                    android:maxLength="200"
+                    android:maxLines="18"
+                    android:minLines="15"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="50dp"
+            android:src="@drawable/icon_to_send"></android.support.design.widget.FloatingActionButton>
+    </RelativeLayout>
+
+
+</LinearLayout>

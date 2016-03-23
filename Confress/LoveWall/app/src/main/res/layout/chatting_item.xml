@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+ <LinearLayout
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:orientation="horizontal"
+     android:gravity="center_vertical">
+     <de.hdodenhof.circleimageview.CircleImageView
+         android:id="@+id/friend_icon"
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:src="@drawable/wall"
+         app:civ_border_width="1dp"
+         app:civ_border_color="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="left"
+        android:background="@drawable/message_left" >
+
+        <TextView
+            android:id="@+id/left_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:textColor="#fff" />
+    </LinearLayout>
+ </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/message_right" >
+
+        <TextView
+            android:id="@+id/right_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/my_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/wall"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

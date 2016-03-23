@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDEDED"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="?attr/colorPrimary"
+            >
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></android.support.v4.view.ViewPager>
+
+            <com.confress.lovewall.view.CustomView.ViewPagerIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+            </com.confress.lovewall.view.CustomView.ViewPagerIndicator>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="top|center"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+     
+            <TextView
+                android:id="@+id/messge1"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="8"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="#女婿上门了#"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+       
+    </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="5dp"
+         android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+
+            <TextView
+                android:id="@+id/messge2"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="8"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="#随手拍雪景#"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+    </RelativeLayout>
+    </LinearLayout>
+<LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+     
+
+            <TextView
+                android:id="@+id/messge3"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="8"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="#在上海遇见你#"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+       
+    </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="5dp"
+         android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+
+            <TextView
+                android:id="@+id/messge4"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="8"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="#热门话题#"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+    </RelativeLayout>
+    </LinearLayout>
+    
+
+<RelativeLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/new_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/navigationbar_icon_newchat_highlight"
+            android:textColor="@color/Black" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="65dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="最新表白"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    
+<RelativeLayout
+        android:id="@+id/hot_topic"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/radar_card_guide_hot"
+            android:textColor="@color/Black" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="65dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="热门话题"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/wall_firends"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_mid_bg"
+        android:padding="5dp" >
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/beauty_ic_sub_cate_more"
+            android:textColor="@color/Black" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="65dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="附近墙友"
+                android:textColor="#746F6F"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
