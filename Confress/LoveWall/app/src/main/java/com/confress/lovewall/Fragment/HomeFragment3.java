@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.confress.lovewall.Activity.CommentActivity;
+import com.confress.lovewall.Activity.NearByFriendActivity;
 import com.confress.lovewall.R;
 import com.confress.lovewall.Utils.T;
 import com.confress.lovewall.model.MessageWall;
@@ -57,32 +58,6 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
     private List<String> mImagePath = new ArrayList<>();
     private List<MessageWall> messageWalls = new ArrayList<>();
     private HomeFragment3Presenter presenter = new HomeFragment3Presenter(this, getActivity());
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                Failure();
-            } else if (msg.what == 1) {
-                messageWalls.addAll((List<MessageWall>) msg.obj);
-                if (messageWalls.size() > 0) {
-                    mImagePath.clear();
-                    for (MessageWall messageWall : messageWalls) {
-                        mImagePath.add(messageWall.getConfess_image());
-                        Log.e("messageWallsImage", "" + messageWall.getConfess_image());
-                    }
-                    initDatas();
-                } else {
-                    T.showShort(getActivity(), "没有数据！");
-                }
-            } else if (msg.what == 2) {
-                if (messageWalls.size() > 0) {
-                    messageWalls.addAll((List<MessageWall>) msg.obj);
-                }
-            } else if (msg.what == 3) {
-                T.showShort(getActivity(), "没有更多数据了！");
-            }
-        }
-    };
     private List<VpSimpleFragment> mContents = new ArrayList<>();
     private FragmentStatePagerAdapter mAdpter;
 
@@ -92,7 +67,7 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
         new Thread(new Runnable() {
             @Override
             public void run() {
-                presenter.FirstLoadingData(mhandler, getActivity());
+                presenter.FirstLoadingData( getActivity());
             }
         }).start();
     }
@@ -111,6 +86,10 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
     }
 
     private void initDatas() {
+        //防止页面切换过快导致空指针异常
+        if (viewpager==null){
+            return;
+        }
         for (String imagepath : mImagePath) {
             VpSimpleFragment fragment = VpSimpleFragment.newInstance(imagepath);
             mContents.add(fragment);
@@ -143,6 +122,10 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
         presenter=null;
     }
 
+    public void NeedLogin() {
+        T.showShort(getActivity(), "请先登录呦！");
+    }
+
     @Override
     public void Failure() {
         T.showShort(getActivity(), "获取信息失败，请检查网络状况！");
@@ -151,6 +134,31 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
     @Override
     public User getCurrentUser() {
         return BmobUser.getCurrentUser(getActivity(), User.class);
+    }
+
+
+    @Override
+    public void UpdateAdapter(int size, List<MessageWall> ImessageWalls) {
+        if (size==0){
+        }else if (size==1){
+            messageWalls.addAll(ImessageWalls);
+            if (messageWalls.size()>0){
+                mImagePath.clear();
+                for (MessageWall messageWall : messageWalls) {
+                    mImagePath.add(messageWall.getConfess_image());
+                    Log.e("messageWallsImage", "" + messageWall.getConfess_image());
+                }
+                initDatas();
+            }else {
+                T.showShort(getActivity(), "没有数据！");
+            }
+        }else  if (size==2){
+            if (messageWalls.size() > 0) {
+                messageWalls.addAll(ImessageWalls);
+            }
+        }else  if (size==3){
+            T.showShort(getActivity(), "没有更多数据了！");
+        }
     }
 
     @Override
@@ -184,9 +192,9 @@ public class HomeFragment3 extends Fragment implements IHomeFragment3View, View.
                 T.showShort(getActivity(), "Sorry,该功能还未开放！！");
                 break;
             case R.id.wall_firends:
-                T.showShort(getActivity(), "Sorry,该功能还未开放！！");
+                Intent intent5 = new Intent(getActivity(), NearByFriendActivity.class);
+                startActivity(intent5);
                 break;
-
         }
     }
 }

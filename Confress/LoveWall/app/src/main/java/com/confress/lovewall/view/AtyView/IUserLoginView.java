@@ -16,5 +16,6 @@ public interface IUserLoginView {
     void showFailedError();
     Context getContext();
     void ErrorOfUsnAndPsd();
+    void toSettingAty(String nickname,String icon);
 
 }

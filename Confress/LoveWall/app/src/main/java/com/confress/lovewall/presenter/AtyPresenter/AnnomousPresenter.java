@@ -29,6 +29,10 @@ public class AnnomousPresenter {
             annomousView.EmptyOfMessage();
             return;
         }
+        if (annomousView.getUser()==null){
+            annomousView.NeedLogin();
+            return;
+        }
         messageWallBiz.uploadAnnomousMessage(annomousView.getUser(), annomousView.getWallMessage(),new OnUploadDataListener() {
             @Override
             public void OnSusscess() {

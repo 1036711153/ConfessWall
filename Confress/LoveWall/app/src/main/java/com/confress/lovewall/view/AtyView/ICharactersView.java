@@ -24,4 +24,5 @@ public interface ICharactersView {
     void hidetvProgress();
     void success();
     void failure();
+    void NeedLogin();
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -53,32 +54,6 @@ public class NewsFragment extends Fragment implements INewsFragmentView {
     private int currentpage = 1;
     private int mFirstY;
     private int mCurrentY;
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-//            hideLoading();
-            if (msg.what == 0) {
-                Failure();
-            } else if (msg.what == 1) {
-                messageWalls.addAll((List<MessageWall>) msg.obj);
-                if (messageWalls.size() > 0) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    T.showShort(getActivity(), "没有数据！");
-                }
-            } else if (msg.what == 2) {
-                if (messageWalls.size() > 0) {
-                    messageWalls.addAll((List<MessageWall>) msg.obj);
-                    adapter.notifyDataSetChanged();
-                    currentpage++;
-                }
-            } else if (msg.what == 3) {
-                T.showShort(getActivity(), "没有更多数据了！");
-            }
-            mRefresh.finishRefresh();
-            mRefresh.finishRefreshLoadMore();
-        }
-    };
 
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,11 +63,10 @@ public class NewsFragment extends Fragment implements INewsFragmentView {
         adapter = new NewsAndHotAdapter(messageWalls, getActivity());
         mListView.setAdapter(adapter);
         //初始化加载一次数据并且显示
-        showLoading();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                newsFragmentPresenter.FirstLoadingData(mhandler, getActivity());
+                newsFragmentPresenter.FirstLoadingData( getActivity());
                 currentpage = 1;
             }
         }).start();
@@ -103,74 +77,22 @@ public class NewsFragment extends Fragment implements INewsFragmentView {
                 //下拉刷新...与第一次加载数据一样
                 currentpage = 1;
                 messageWalls.clear();
-                newsFragmentPresenter.FirstLoadingData(mhandler, getActivity());
-
+                newsFragmentPresenter.FirstLoadingData( getActivity());
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 //上拉刷新...
-                newsFragmentPresenter.PullDownRefreshqueryData(mhandler, currentpage, getActivity());
+                newsFragmentPresenter.PullDownRefreshqueryData( currentpage, getActivity());
                 // 结束上拉刷新...
 
             }
         });
-        adapter.setMyOnItemClickListener(new NewsAndHotAdapter.OnMyItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onSupportClick(View view, int position, MessageWall messageWall, boolean isclick, ImageView imageView, TextView textView) {
-                if (isclick) {
-                    imageView.setImageResource(R.drawable.statusdetail_comment_icon_like_highlighted);
-                    int count = Integer.parseInt(textView.getText().toString());
-                    count++;
-                    textView.setText("" + count);
-                    newsFragmentPresenter.ChangeCount(messageWall, getActivity(), messageWall.getCollection_count(), messageWall.getComment_count(), count);
-                } else {
-                    imageView.setImageResource(R.drawable.radar_card_people_good_highlighted);
-                    int count = Integer.parseInt(textView.getText().toString());
-                    count--;
-                    textView.setText("" + count);
-                    newsFragmentPresenter.ChangeCount(messageWall, getActivity(), messageWall.getCollection_count(), messageWall.getComment_count(), count);
-                }
-            }
-
-            @Override
-            public void onCollectionClick(View view, int position, MessageWall messageWall, boolean isclick, ImageView imageView, TextView textView) {
-                if (isclick) {
-                    newsFragmentPresenter.CollectionOp(getActivity(), messageWall);
-                    imageView.setImageResource(R.drawable.btn_star_on_pressed_holo_dark);
-                    int count = Integer.parseInt(textView.getText().toString());
-                    count++;
-                    textView.setText("" + count);
-                    newsFragmentPresenter.ChangeCount(messageWall, getActivity(), count, messageWall.getComment_count(), messageWall.getSupport_count());
-                } else {
-                    newsFragmentPresenter.DelCollection(getActivity(), messageWall);
-                    imageView.setImageResource(R.drawable.ic_menu_star);
-                    int count = Integer.parseInt(textView.getText().toString());
-                    count--;
-                    textView.setText("" + count);
-                    newsFragmentPresenter.ChangeCount(messageWall, getActivity(), count, messageWall.getComment_count(), messageWall.getSupport_count());
-                }
-            }
-
-            @Override
-            public void onConmmentClick(View view, int position, MessageWall messageWall) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(), CommentActivity.class);
-                intent.putExtra("messageWall", messageWall);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onContentClick(View view, int position, MessageWall messageWall) {
-                Intent intent=new Intent(getActivity(), CommentActivity.class);
-                intent.putExtra("messageWall", messageWall);
-                startActivity(intent);
-
-            }
-
-            @Override
-            public void onUserIconClick(View view, int position,MessageWall messageWall) {
-                Intent intent=new Intent(getActivity(), UserWallActivity.class);
-                intent.putExtra("messageWall",messageWall);
+                intent.putExtra("messageWall", messageWalls.get(position));
                 startActivity(intent);
             }
         });
@@ -203,21 +125,11 @@ public class NewsFragment extends Fragment implements INewsFragmentView {
     }
 
     @Override
-    public void showLoading() {
-//        tabsProgress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-//        tabsProgress.setVisibility(View.INVISIBLE);
-    }
-
-
-    @Override
-    public void Failure() {
-//        T.showShort(getActivity(), "加载数据失败，请刷新试试！");
-        mRefresh.finishRefresh();
-        mRefresh.finishRefreshLoadMore();
+    public void LoadOver() {
+        if (mRefresh!=null) {
+            mRefresh.finishRefresh();
+            mRefresh.finishRefreshLoadMore();
+        }
     }
 
     @Override
@@ -243,6 +155,28 @@ public class NewsFragment extends Fragment implements INewsFragmentView {
     @Override
     public void DelCollectionFailure() {
         T.showShort(getActivity(), "取消收藏失败！");
+    }
+
+    @Override
+    public void UpdateAdapter(int size, List<MessageWall> ImessageWalls) {
+              if (size==0){
+              }else if (size==1){
+                  messageWalls.addAll(ImessageWalls);
+                  if (messageWalls.size()>0){
+                      adapter.notifyDataSetChanged();
+                  }else {
+                      T.showShort(getActivity(), "没有数据！");
+                  }
+              }else  if (size==2){
+                  if (messageWalls.size() > 0) {
+                      messageWalls.addAll(ImessageWalls);
+                      adapter.notifyDataSetChanged();
+                      currentpage++;
+                  }
+              }else  if (size==3){
+                  T.showShort(getActivity(), "没有更多数据了！");
+              }
+              LoadOver();
     }
 
     @Override

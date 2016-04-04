@@ -1,5 +1,6 @@
 package com.confress.lovewall.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,46 +49,18 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
     RecyclerView myRecycler;
     @Bind(R.id.mRefresh)
     MaterialRefreshLayout mRefresh;
-    private MessageWall intentmessageWall;
+    private User messageWall_user;
     private int currentpage = 1;
     private UserWallPresenter userWallPresenter = new UserWallPresenter(this, UserWallActivity.this);
     private List<MessageWall> messageWalls;
     private MyParallaxRecyclerAdapter adapter;
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            hideLoading();
-            if (msg.what == 0) {
-                Failure();
-            } else if (msg.what == 1) {
-                messageWalls.addAll((List<MessageWall>) msg.obj);
-                if (messageWalls.size() > 0) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    T.showShort(getApplicationContext(), "没有数据！");
-                }
-            } else if (msg.what == 2) {
-                if (messageWalls.size() > 0) {
-                    messageWalls.addAll((List<MessageWall>) msg.obj);
-                    adapter.notifyDataSetChanged();
-                    currentpage++;
-                }
-            } else if (msg.what == 3) {
-                T.showShort(getApplicationContext(), "没有更多数据了！");
-            }
-
-            mRefresh.finishRefresh();
-            mRefresh.finishRefreshLoadMore();
-            Log.e("messageWalls", "" + messageWalls.size());
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userwall_main);
         ButterKnife.bind(this);
-        intentmessageWall= (MessageWall) getIntent().getSerializableExtra("messageWall");
+        messageWall_user= (User) getIntent().getSerializableExtra("user");
         InitToolBar();
         InitAdpter();
         DoRefresh();
@@ -96,7 +70,7 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
         new Thread(new Runnable() {
             @Override
             public void run() {
-                userWallPresenter.FirstLoadingData(mhandler, UserWallActivity.this);
+                userWallPresenter.FirstLoadingData( UserWallActivity.this);
                 currentpage = 1;
             }
         }).start();
@@ -109,12 +83,13 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
                 //下拉刷新...与第一次加载数据一样
                 currentpage = 1;
                 messageWalls.clear();
-                userWallPresenter.FirstLoadingData(mhandler, UserWallActivity.this);
+                userWallPresenter.FirstLoadingData( UserWallActivity.this);
             }
+
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 //上拉刷新...
-                userWallPresenter.PullDownRefreshqueryData(mhandler, currentpage, UserWallActivity.this);
+                userWallPresenter.PullDownRefreshqueryData(currentpage, UserWallActivity.this);
                 // 结束上拉刷新...
             }
         });
@@ -127,14 +102,16 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
 
         CircleImageView user_icon= (CircleImageView) hearview.findViewById(R.id.user_icon);
         TextView user_name= (TextView) hearview.findViewById(R.id.user_name);
-        TextView attention= (TextView) hearview.findViewById(R.id.attention);
-        TextView disattention= (TextView) hearview.findViewById(R.id.disattention);
-        attention.setOnClickListener(this);
-        disattention.setOnClickListener(this);
-        User currentUser = intentmessageWall.getUser();
-        Glide.with(this).load(currentUser.getIcon()).into(user_icon);
-        user_name.setText(currentUser.getNick());
+        TextView addfriends= (TextView) hearview.findViewById(R.id.addfriends);
+        addfriends.setOnClickListener(this);
+        User currentUser = messageWall_user;
 
+        if (!TextUtils.isEmpty(currentUser.getIcon())){
+            Glide.with(this).load(currentUser.getIcon()).into(user_icon);
+        }
+        if (!TextUtils.isEmpty(currentUser.getNick())) {
+            user_name.setText(currentUser.getNick());
+        }
         adapter.setParallaxHeader(hearview, myRecycler);
         adapter.setOnParallaxScroll(new ParallaxRecyclerAdapter.OnParallaxScroll() {
             @Override
@@ -143,6 +120,14 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
             }
         });
         myRecycler.setAdapter(adapter);
+        adapter.setMyOnItemClickListener(new MyParallaxRecyclerAdapter.OnMyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, MessageWall messageWall) {
+                Intent intent = new Intent(UserWallActivity.this, CommentActivity.class);
+                intent.putExtra("messageWall", messageWall);
+                startActivity(intent);
+            }
+        });
     }
 
     private void InitToolBar() {
@@ -158,16 +143,8 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
                 UserWallActivity.this.finish();
             }
         });
-    }
 
-    @Override
-    public void showLoading() {
-        idProgress.setVisibility(View.VISIBLE);
-    }
 
-    @Override
-    public void hideLoading() {
-        idProgress.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -176,18 +153,23 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
     }
 
     @Override
+    public User getWallUser() {
+        return messageWall_user;
+    }
+
+    @Override
     public User getCurrentUser() {
-        return intentmessageWall.getUser();
+        return BmobUser.getCurrentUser(this,User.class);
     }
 
     @Override
     public void AttentionSuccess() {
-        T.showShort(this, "关注成功！！");
+        T.showShort(this, "添加好友成功！！");
     }
 
     @Override
     public void AttentionFailure() {
-        T.showShort(this, "关注失败！！");
+        T.showShort(this, "添加好友失败！！");
     }
 
     @Override
@@ -202,18 +184,48 @@ public class UserWallActivity extends AppCompatActivity implements IUserWallView
 
     @Override
     public void ErrorOfAttention() {
-        T.showShort(this, "不能关注自己！！");
+        T.showShort(this, "不能添加自己为好友！！");
+    }
+
+    @Override
+    public void UpdateAdapter(int size, List<MessageWall> ImessageWalls) {
+        if (size==0){
+            Failure();
+        }else if (size==1){
+            messageWalls.addAll(ImessageWalls);
+            if (messageWalls.size()>0){
+                adapter.notifyDataSetChanged();
+            }else {
+                T.showShort(getApplicationContext(), "没有数据！");
+            }
+        }else  if (size==2){
+            if (messageWalls.size() > 0) {
+                messageWalls.addAll(ImessageWalls);
+                adapter.notifyDataSetChanged();
+                currentpage++;
+            }
+        }else  if (size==3){
+            T.showShort(getApplicationContext(), "没有更多数据了！");
+        }
+        LoadOver();
+    }
+
+    @Override
+    public void LoadOver() {
+        if (mRefresh!=null) {
+            mRefresh.finishRefresh();
+            mRefresh.finishRefreshLoadMore();
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.attention:
-                  userWallPresenter.Attention();
+            case R.id.addfriends:
+                userWallPresenter.AddRequest();
+//                userWallPresenter.ADDFriends2();
                 break;
-            case R.id.disattention:
-                  userWallPresenter.DelAttention();
-                break;
+
         }
     }
 

@@ -76,14 +76,27 @@
             android:text="性别:"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:checked="true"
+                android:text="男"/>
+            <RadioButton
+                android:id="@+id/radio_woman"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="女"/>
+        </RadioGroup>
 
-        <EditText
-            android:id="@+id/sex"
-            style="@style/Register_Edit"
-            android:singleLine="true"
-            android:maxLength="1"
-            android:ems="1"
-            android:hint="请输入性别" />
     </LinearLayout>
 
     <LinearLayout style="@style/Register_Input"

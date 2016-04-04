@@ -4,6 +4,7 @@ package com.confress.lovewall.model;
 import java.io.Serializable;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
@@ -17,8 +18,30 @@ public class User extends BmobUser implements Serializable{
     private String icon;
     //用户收藏夹
     private BmobRelation likes;
+    //好友
     private BmobRelation friends;
     private BmobRelation tricks;
+    //经纬度坐标
+    private BmobGeoPoint gpsadd;
+    //地理位置
+    private String address;
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public BmobGeoPoint getGpsadd() {
+        return gpsadd;
+    }
+
+    public void setGpsadd(BmobGeoPoint gpsadd) {
+        this.gpsadd = gpsadd;
+    }
 
     public BmobRelation getTricks() {
         return tricks;

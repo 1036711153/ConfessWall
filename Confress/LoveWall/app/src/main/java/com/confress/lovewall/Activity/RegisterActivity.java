@@ -52,7 +52,7 @@ public class RegisterActivity extends Activity implements IUserRegisterView,View
 
     @Override
     public void Failed() {
-        Toast.makeText(getApplicationContext(),"注册失败",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"注册失败,可能用户名已存在或者是邮箱格式错误！",Toast.LENGTH_SHORT).show();
     }
 
     @Override

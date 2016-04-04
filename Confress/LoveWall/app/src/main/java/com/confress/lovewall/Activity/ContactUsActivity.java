@@ -78,6 +78,10 @@ public class ContactUsActivity extends AppCompatActivity implements IContactUsVi
         T.showShort(this, "谢谢您的意见！");
         this.finish();
     }
+    @Override
+    public void NeedLogin() {
+        T.showShort(this, "请先登录呦！");
+    }
 
     @Override
     public void Failure() {

@@ -10,12 +10,16 @@ import com.confress.lovewall.biz.ICommentBiz;
 import com.confress.lovewall.biz.IListener.OnCommentListener;
 import com.confress.lovewall.biz.IListener.OnCommentQueryListener;
 import com.confress.lovewall.biz.IListener.OnQueryListener;
+import com.confress.lovewall.biz.IListener.OnUpdateCommentCountListener;
+import com.confress.lovewall.biz.IListener.OnUpdateListener;
+import com.confress.lovewall.biz.IListener.OnUploadDataListener;
 import com.confress.lovewall.biz.IMessageWallBiz;
 import com.confress.lovewall.biz.IUserBiz;
 import com.confress.lovewall.biz.MessageWallBiz;
 import com.confress.lovewall.biz.UserBiz;
 import com.confress.lovewall.model.Comment;
 import com.confress.lovewall.model.MessageWall;
+import com.confress.lovewall.model.User;
 import com.confress.lovewall.view.AtyView.ICommentView;
 import com.confress.lovewall.view.AtyView.IMyCollectionView;
 
@@ -29,8 +33,12 @@ public class CommentPresenter {
     private ICommentBiz commentBiz;
     private ICommentView commentView;
     private Context context;
+    private IMessageWallBiz messageWallBiz;
+    private IUserBiz userBiz;
 
     public CommentPresenter(ICommentView commentView, Context context) {
+        this.userBiz=new UserBiz();
+        this.messageWallBiz=new MessageWallBiz();
         this.commentBiz = new CommentBiz();
         this.commentView = commentView;
         this.context = context;
@@ -101,23 +109,112 @@ public class CommentPresenter {
     }
 
 
-    public void UpComment(MessageWall messageWall){
+    public void UpComment(final MessageWall messageWall){
         if (TextUtils.isEmpty(commentView.getCommentMsg())){
             commentView.EmptyMsg();
             return;
         }
-        commentBiz.PostComment(commentView.getCurrentUser(),commentView.getCommentMsg(),messageWall, new OnCommentListener() {
+        if (commentView.getCurrentUser()==null){
+            commentView.NeedLogin();
+            return;
+        }
+        commentBiz.PostComment(commentView.getCurrentUser(), commentView.getCommentMsg(), messageWall, new OnCommentListener() {
             @Override
             public void OnSuccess() {
-              commentView.PostSuccess();
+                commentView.PostSuccess();
+                messageWallBiz.AddCommentCount(messageWall, new OnUpdateCommentCountListener() {
+
+                    @Override
+                    public void OnSuccess(int count) {
+                        commentView.UpdateCommentCount(count);
+                    }
+
+                    @Override
+                    public void OnFailed() {
+
+                    }
+                }, context);
             }
 
             @Override
             public void OnFailed() {
-              commentView.PostFailure();
+                commentView.PostFailure();
             }
-        },context);
+        }, context);
+    }
+    public  void  AddSupport(final MessageWall messageWall){
+        messageWallBiz.AddSupport(messageWall, new OnUpdateCommentCountListener() {
+            @Override
+            public void OnSuccess(int count) {
+                commentView.UpdateSupportCount(count);
+            }
+
+            @Override
+            public void OnFailed() {
+            }
+        }, context);
+    }
+    public  void  DelSupport(final MessageWall messageWall){
+        messageWallBiz.DelSupport(messageWall, new OnUpdateCommentCountListener() {
+            @Override
+            public void OnSuccess(int count) {
+                commentView.UpdateSupportCount(count);
+            }
+
+            @Override
+            public void OnFailed() {
+            }
+        }, context);
     }
 
+    //添加收藏
+    public void CollectionOp(final Context context,final MessageWall messageWall){
+        userBiz.CollectionOp(commentView.getCurrentUser(), messageWall, new OnUpdateListener() {
+            @Override
+            public void OnSuccess(User user) {
+                commentView.CollectionSuccess();
+                messageWallBiz.AddCollection(messageWall, new OnUpdateCommentCountListener() {
+                    @Override
+                    public void OnSuccess(int count) {
+                        commentView.UpdateCollectionCount(count);
+                    }
+
+                    @Override
+                    public void OnFailed() {
+                    }
+                }, context);
+            }
+            @Override
+            public void OnFailed() {
+                commentView.CollectionFailure();
+            }
+        }, context);
+    }
+
+    //取消收藏
+    public void DelCollection(final Context context,final MessageWall messageWall){
+        userBiz.DelCollection(commentView.getCurrentUser(), messageWall, new OnUpdateListener() {
+            @Override
+            public void OnSuccess(User user) {
+                commentView.DelCollectionSuccess();
+                messageWallBiz.DelCollection(messageWall, new OnUpdateCommentCountListener() {
+                    @Override
+                    public void OnSuccess(int count) {
+                        commentView.UpdateCollectionCount(count);
+                    }
+
+                    @Override
+                    public void OnFailed() {
+
+                    }
+                }, context);
+            }
+
+            @Override
+            public void OnFailed() {
+                commentView.DelCollectionFailure();
+            }
+        }, context);
+    }
 
 }

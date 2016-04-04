@@ -21,20 +21,18 @@ import java.util.List;
  * Created by admin on 2016/3/13.
  */
 public class HomeFragment3Presenter {
-    private IUserBiz userBiz;
     private IMessageWallBiz messageWallBiz;
     private IHomeFragment3View homeFragment3View;
     private Context context;
 
     public HomeFragment3Presenter(IHomeFragment3View homeFragment3View, Context context) {
-        this.userBiz = new UserBiz();
         this.messageWallBiz = new MessageWallBiz();
         this.homeFragment3View = homeFragment3View;
         this.context = context;
     }
 
     //下拉刷新和第一次加载页面方法
-    public List<MessageWall> FirstLoadingData(final Handler mhandler,Context context) {
+    public List<MessageWall> FirstLoadingData(Context context) {
         final   List<MessageWall>messageWalls=new ArrayList<>();
         messageWallBiz.RandomRefreshQueryData(0, new OnQueryListener() {
             @Override
@@ -44,22 +42,14 @@ public class HomeFragment3Presenter {
                     for (MessageWall messageWall : list) {
                         messageWalls.add(messageWall);
                     }
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
+                    homeFragment3View.UpdateAdapter(1,messageWalls);
                 } else {
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
+                    homeFragment3View.UpdateAdapter(1,messageWalls);
                 }
             }
             @Override
             public void Failure() {
-                Message message=new Message();
-                message.what=0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                homeFragment3View.UpdateAdapter(0,messageWalls);
             }
         }, context);
         return messageWalls;

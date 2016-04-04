@@ -18,17 +18,6 @@ public class MessageWall extends BmobObject implements Serializable {
     private boolean Is_Anonymous;//是否匿名
     private User user;
 
-//    private BmobRelation likes;
-//
-//
-//    public BmobRelation getLikes() {
-//        return likes;
-//    }
-//
-//    public void setLikes(BmobRelation likes) {
-//        this.likes = likes;
-//    }
-
     public String getConfess_content() {
         return Confess_content;
     }

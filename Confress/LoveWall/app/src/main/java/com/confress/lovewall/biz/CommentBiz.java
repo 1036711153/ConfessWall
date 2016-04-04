@@ -32,6 +32,7 @@ public class CommentBiz implements ICommentBiz {
             @Override
             public void onSuccess() {
                 commentListener.OnSuccess();
+
             }
 
             @Override
@@ -50,7 +51,7 @@ public class CommentBiz implements ICommentBiz {
         messageWall1.setObjectId(ImessageWall.getObjectId());
         query.addWhereEqualTo("messageWall", new BmobPointer(messageWall1));
         query.include("user");
-        query.order("-updatedAt");
+        query.order("-createdAt");
         query.setLimit(20);
         query.setSkip(page * 20);
         query.findObjects(context, new FindListener<Comment>() {

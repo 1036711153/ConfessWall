@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.confress.lovewall.R;
 import com.confress.lovewall.Utils.PhotoViewUtils;
+import com.confress.lovewall.Utils.T;
 import com.confress.lovewall.model.User;
 import com.confress.lovewall.presenter.AtyPresenter.CharactersPresenter;
 import com.confress.lovewall.view.AtyView.ICharactersView;
@@ -155,6 +156,10 @@ public class CharactersActivity extends Activity implements ICharactersView, Vie
     @Override
     public void failure() {
         Toast.makeText(getContext(), "表白信息上传失败", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void NeedLogin() {
+        T.showShort(this, "请先登录呦！");
     }
 
     @Override

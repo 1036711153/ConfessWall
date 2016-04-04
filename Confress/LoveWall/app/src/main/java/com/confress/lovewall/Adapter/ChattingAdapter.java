@@ -7,29 +7,32 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.confress.lovewall.R;
-import com.confress.lovewall.model.Tricks;
+import com.confress.lovewall.model.ChattingMsg;
 
+import cn.bmob.v3.Bmob;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChattingAdapter extends BaseAdapter{
 
-	private List<Tricks> trickses;
+	private List<ChattingMsg> trickses;
     private Context context;
 	private String my_icon_path;
 	private String friend_icon_path;
+	private String uid;
 
-	public ChattingAdapter(List<Tricks> trickses, Context context, String my_icon_path, String friend_icon_path) {
+	public ChattingAdapter(List<ChattingMsg> trickses, Context context, String my_icon_path, String friend_icon_path
+	,String uid) {
 		this.trickses = trickses;
 		this.context = context;
 		this.my_icon_path = my_icon_path;
 		this.friend_icon_path = friend_icon_path;
+		this.uid=uid;
 	}
 
 	@Override
@@ -49,7 +52,7 @@ public class ChattingAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Tricks tricks=trickses.get(position);
+		ChattingMsg tricks=trickses.get(position);
 		View view;
 		ViewHolder viewHolder;
 		if (convertView == null) {
@@ -66,18 +69,23 @@ public class ChattingAdapter extends BaseAdapter{
 			view = convertView;
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		if (tricks.getType() == 1) {
-			viewHolder.leftLayout.setVisibility(View.VISIBLE);
+		if (!uid.equals(tricks.getUid1())) {
 			viewHolder.rightLayout.setVisibility(View.GONE);
+			viewHolder.my_icon.setVisibility(View.GONE);
+			viewHolder.friend_icon.setVisibility(View.VISIBLE);
+			viewHolder.leftLayout.setVisibility(View.VISIBLE);
 			viewHolder.leftMsg.setText(tricks.getContent());
 			if(TextUtils.isEmpty(friend_icon_path)){
 				viewHolder.friend_icon.setImageResource(R.drawable.wall);
 			}else {
 				Glide.with(context).load(friend_icon_path).into(viewHolder.friend_icon);
 			}
-		} else if(tricks.getType() ==0) {
-			viewHolder.rightLayout.setVisibility(View.VISIBLE);
+		} else if(uid.equals(tricks.getUid1())) {
 			viewHolder.leftLayout.setVisibility(View.GONE);
+			viewHolder.friend_icon.setVisibility(View.GONE);
+
+			viewHolder.my_icon.setVisibility(View.VISIBLE);
+			viewHolder.rightLayout.setVisibility(View.VISIBLE);
 			viewHolder.rightMsg.setText(tricks.getContent());
 			if(TextUtils.isEmpty(my_icon_path)){
 				viewHolder.my_icon.setImageResource(R.drawable.wall);
@@ -87,7 +95,6 @@ public class ChattingAdapter extends BaseAdapter{
 		}
 		return view;
 	}
-
 	class ViewHolder {
 		LinearLayout leftLayout;
 		LinearLayout rightLayout;

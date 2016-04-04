@@ -8,8 +8,8 @@ android {
         applicationId "com.confress.lovewall"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -37,9 +37,14 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.kanytu:android-parallax-recyclerview:v1.7'
     compile 'com.google.code.gson:gson:2.2.4'
-
-    compile "com.android.support:support-v4:+"
+    compile 'com.android.support:support-v4:+'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile files('libs/AMap_Location_V2.4.0_20160308.jar')
+    compile 'com.lovedise:permissiongen:0.0.6'
+    compile files('libs/ShareSDK-Core-2.1.2.jar')
+    compile files('libs/ShareSDK-QQ-2.1.2.jar')
+    compile files('libs/ShareSDK-QZone-2.1.2.jar')
+    compile files('libs/ShareSDK-SinaWeibo-2.1.2.jar')
 }

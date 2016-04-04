@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.confress.lovewall">
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -22,19 +31,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="f7734e2c13bfada1a8dee9f43919ee43">
+
+        </meta-data>
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".Activity.HomeActivity"></activity>
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".Activity.HomeActivity" android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activity.LoginActivity"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
         </activity>
         <activity android:name=".Activity.RegisterActivity"></activity>
         <activity android:name=".Activity.FindPsdActivity"></activity>
@@ -44,11 +63,24 @@
         <activity android:name=".Activity.MyTrickAcivity"></activity>
         <activity android:name=".Activity.MyCollectionActivity"></activity>
         <activity android:name=".Activity.UserSettingActivity"></activity>
+        <activity android:name=".Activity.FirstUserSettingActivity"></activity>
         <activity android:name=".Activity.ContactUsActivity"></activity>
         <activity android:name=".Activity.CommentActivity"></activity>
         <activity android:name=".Activity.UserWallActivity"></activity>
-        <activity android:name=".Activity.ChattingActivity"></activity>
-        <activity android:name=".Activity.LookTrickActivity"></activity>
+        <activity android:name=".Activity.ChattingActivity" android:launchMode="singleTask"></activity>
+        <activity android:name=".Activity.ShowChattingMsgActivity"></activity>
+        <activity android:name=".Activity.NearByFriendActivity"></activity>
+
+
+
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
+        <service android:name="com.amap.api.location.APSService"></service>
 
         <service
             android:label="PushService"

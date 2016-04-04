@@ -27,16 +27,18 @@ public class HomeFragment2Presenter {
     private Context context;
 
 
-
     public HomeFragment2Presenter(IHomeFragment2View homeFragment2View, Context context) {
-        this.userBiz=new UserBiz();
+        this.userBiz = new UserBiz();
         this.homeFragment2View = homeFragment2View;
         this.context = context;
     }
 
     //第一次加载数据OR刷新加载数据
-    public  void FirstLoadingData(final Handler mhandler,Context context){
-        final   List<User> users=new ArrayList<>();
+    public void FirstLoadingData( Context context) {
+        if (homeFragment2View.getUser() == null) {
+            return;
+        }
+        final List<User> users = new ArrayList<>();
         userBiz.QueryFriends(0, homeFragment2View.getUser(), new OnQueryFriendsListener() {
             @Override
             public void Success(List<User> list) {
@@ -45,31 +47,27 @@ public class HomeFragment2Presenter {
                     for (User user : list) {
                         users.add(user);
                     }
-                    Message message = new Message();
-                    message.what = 1;//0代表加载失败 1代表加载成功
-                    message.obj = users;
-                    mhandler.sendMessage(message);
+                    homeFragment2View.UpdateAdapter(1, users);
+
                 } else {
-                    Message message = new Message();
-                    message.what = 1;//0代表加载失败 1代表加载成功
-                    message.obj = users;
-                    mhandler.sendMessage(message);
+                    homeFragment2View.UpdateAdapter(1, users);
                 }
             }
 
             @Override
             public void Failure() {
-                Message message = new Message();
-                message.what = 0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                homeFragment2View.UpdateAdapter(0, users);
             }
         }, context);
     }
 
 
     //上拉刷新加载
-    public void PullDownRefreshqueryData(final Handler mhandler,int page,final Context context) {
-        final   List<User>users=new ArrayList<>();
+    public void PullDownRefreshqueryData( int page, final Context context) {
+        if (homeFragment2View.getUser() == null) {
+            return;
+        }
+        final List<User> users = new ArrayList<>();
         userBiz.QueryFriends(page, homeFragment2View.getUser(), new OnQueryFriendsListener() {
             @Override
             public void Success(List<User> list) {
@@ -77,22 +75,15 @@ public class HomeFragment2Presenter {
                     for (User user : list) {
                         users.add(user);
                     }
-                    Message message = new Message();
-                    message.what = 2;//0代表加载失败 1代表加载成功
-                    message.obj = users;
-                    mhandler.sendMessage(message);
+                    homeFragment2View.UpdateAdapter(2, users);
                 } else {
-                    Message message = new Message();
-                    message.what = 3;//0代表加载失败 1代表加载成功
-                    mhandler.sendMessage(message);
+                    homeFragment2View.UpdateAdapter(3, users);
                 }
             }
 
             @Override
             public void Failure() {
-                Message message = new Message();
-                message.what = 0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                homeFragment2View.UpdateAdapter(0, users);
             }
         }, context);
     }

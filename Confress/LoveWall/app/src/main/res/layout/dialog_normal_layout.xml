@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="20.0dip" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:background="@drawable/tabbar_compose_blur_background"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="40.0dip"
+            android:gravity="center"
+            android:textColor="#14234C"
+                android:textSize="20sp"
+                android:textStyle="bold"
+            android:text="提示"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+           >
+            <TextView
+                android:layout_gravity="center"
+                android:text="张小贱想添加你为好友"
+                android:id="@+id/message"
+                android:layout_width="fill_parent"
+                android:layout_height="90.0dip"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.5"
+                android:minHeight="70.0dip"
+                android:maxHeight="70.0dip"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#2C2C2C"
+                android:paddingBottom="15.0dip"
+                android:paddingLeft="20.0dip"
+                android:paddingRight="20.0dip"
+                android:paddingTop="15.0dip" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="3.0px"
+            android:background="#BBC5CE" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/positiveButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="#bb0C7BEE"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="添加" />
+                 <View
+                android:layout_width="3.0px"
+               android:layout_height="match_parent"
+                  android:background="#BBC5CE" />
+
+            <TextView
+                android:id="@+id/negativeButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#bb0C7BEE"
+                android:text="拒绝" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

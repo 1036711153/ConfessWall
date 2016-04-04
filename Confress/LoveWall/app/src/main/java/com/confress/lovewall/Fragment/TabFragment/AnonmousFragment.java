@@ -51,32 +51,32 @@ public class AnonmousFragment extends Fragment implements IAnonmousFragmentView{
     private int currentpage = 1;
     private int mFirstY;
     private int mCurrentY;
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                Failure();
-            } else if(msg.what==1){
-                messageWalls.addAll((List<MessageWall>) msg.obj);
-                if (messageWalls.size() > 0) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    T.showShort(getActivity(), "没有数据！");
-                }
-            }else  if (msg.what==2){
-                if (messageWalls.size()>0){
-                    messageWalls.addAll((List<MessageWall>) msg.obj);
-                    adapter.notifyDataSetChanged();
-                    currentpage++;
-                }
-                mRefresh.finishRefreshLoadMore();
-            }else  if (msg.what==3){
-                T.showShort(getActivity(), "没有更多数据了！");
-            }
-            mRefresh.finishRefresh();
-            mRefresh.finishRefreshLoadMore();
-        }
-    };
+//    private Handler mhandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == 0) {
+//                Failure();
+//            } else if(msg.what==1){
+//                messageWalls.addAll((List<MessageWall>) msg.obj);
+//                if (messageWalls.size() > 0) {
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    T.showShort(getActivity(), "没有数据！");
+//                }
+//            }else  if (msg.what==2){
+//                if (messageWalls.size()>0){
+//                    messageWalls.addAll((List<MessageWall>) msg.obj);
+//                    adapter.notifyDataSetChanged();
+//                    currentpage++;
+//                }
+//                mRefresh.finishRefreshLoadMore();
+//            }else  if (msg.what==3){
+//                T.showShort(getActivity(), "没有更多数据了！");
+//            }
+//            mRefresh.finishRefresh();
+//            mRefresh.finishRefreshLoadMore();
+//        }
+//    };
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,11 +86,10 @@ public class AnonmousFragment extends Fragment implements IAnonmousFragmentView{
         adapter = new AnonmousAdapter(messageWalls, getActivity());
         mListView.setAdapter(adapter);
         //初始化加载一次数据并且显示
-        showLoading();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                anonmousFragmentPresenter.FirstLoadingData(mhandler, getActivity());
+                anonmousFragmentPresenter.FirstLoadingData( getActivity());
                 currentpage=1;
             }
         }).start();
@@ -101,13 +100,13 @@ public class AnonmousFragment extends Fragment implements IAnonmousFragmentView{
                 //下拉刷新...与第一次加载数据一样
                 currentpage=1;
                 messageWalls.clear();
-                anonmousFragmentPresenter.FirstLoadingData(mhandler, getActivity());
+                anonmousFragmentPresenter.FirstLoadingData(getActivity());
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 //上拉刷新...
-                anonmousFragmentPresenter.PullDownRefreshqueryData(mhandler, currentpage, getActivity());
+                anonmousFragmentPresenter.PullDownRefreshqueryData(currentpage, getActivity());
             }
         });
 
@@ -140,19 +139,14 @@ public class AnonmousFragment extends Fragment implements IAnonmousFragmentView{
         return root;
     }
 
-    @Override
-    public void showLoading() {
-    }
-
-    @Override
-    public void hideLoading() {
-    }
 
 
     @Override
-    public void Failure() {
-        mRefresh.finishRefresh();
-        mRefresh.finishRefreshLoadMore();
+    public void LoadOver() {
+        if (mRefresh!=null) {
+            mRefresh.finishRefresh();
+            mRefresh.finishRefreshLoadMore();
+        }
     }
 
     @Override
@@ -185,6 +179,28 @@ public class AnonmousFragment extends Fragment implements IAnonmousFragmentView{
     @Override
     public void DelCollectionFailure() {
         T.showShort(getActivity(), "取消收藏失败！");
+    }
+
+    @Override
+    public void UpdateAdapter(int size, List<MessageWall> ImessageWalls) {
+        if (size==0){
+        }else if (size==1){
+            messageWalls.addAll(ImessageWalls);
+            if (messageWalls.size()>0){
+                adapter.notifyDataSetChanged();
+            }else {
+                T.showShort(getActivity(), "没有数据！");
+            }
+        }else  if (size==2){
+            if (messageWalls.size() > 0) {
+                messageWalls.addAll(ImessageWalls);
+                adapter.notifyDataSetChanged();
+                currentpage++;
+            }
+        }else  if (size==3){
+            T.showShort(getActivity(), "没有更多数据了！");
+        }
+        LoadOver();
     }
 
 }

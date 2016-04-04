@@ -14,4 +14,13 @@ public interface ICommentView {
     void PostSuccess();
     void PostFailure();
     void EmptyMsg();
+    void NeedLogin();
+    void CollectionSuccess();
+    void CollectionFailure();
+    void DelCollectionSuccess();
+    void DelCollectionFailure();
+
+    void UpdateCommentCount(int count);
+    void UpdateSupportCount(int count);
+    void UpdateCollectionCount(int count);
 }

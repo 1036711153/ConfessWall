@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.confress.lovewall.Activity.ContactUsActivity;
+import com.confress.lovewall.Activity.LoginActivity;
 import com.confress.lovewall.Activity.MyCollectionActivity;
 import com.confress.lovewall.Activity.MyTrickAcivity;
 import com.confress.lovewall.Activity.MyWallActivity;
 import com.confress.lovewall.Activity.UserSettingActivity;
 import com.confress.lovewall.R;
+import com.confress.lovewall.Utils.T;
 import com.confress.lovewall.model.User;
 import com.confress.lovewall.presenter.FragmentPresenter.HomeFragment4Presenter;
 import com.confress.lovewall.view.FragmentView.IHomeFragment4View;
@@ -81,15 +83,28 @@ public class HomeFragment4 extends Fragment implements View.OnClickListener, IHo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
-                startActivityForResult(new Intent(getActivity(), UserSettingActivity.class), REQUEST_CODE);
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+//                startActivityForResult(new Intent(getActivity(), UserSettingActivity.class), REQUEST_CODE);
                 break;
             case R.id.user_setting:
+                if (getCurrentUser()==null){
+                    NeedLogin();
+                    return;
+                }
                 startActivityForResult(new Intent(getActivity(), UserSettingActivity.class), REQUEST_CODE);
                 break;
             case R.id.contact_us:
+                if (getCurrentUser()==null){
+                    NeedLogin();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), ContactUsActivity.class));
                 break;
             case R.id.collection:
+                if (getCurrentUser()==null){
+                    NeedLogin();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), MyCollectionActivity.class));
                 break;
             case R.id.save_exit:
@@ -97,10 +112,20 @@ public class HomeFragment4 extends Fragment implements View.OnClickListener, IHo
                 getActivity().finish();
                 break;
             case R.id.my_wall:
+                if (getCurrentUser()==null){
+                    NeedLogin();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), MyWallActivity.class));
                 break;
         }
     }
+
+    @Override
+    public void NeedLogin() {
+        T.showShort(getActivity(), "请先登录呦！");
+    }
+
 
     @Override
     public void setUserData() {
@@ -120,7 +145,7 @@ public class HomeFragment4 extends Fragment implements View.OnClickListener, IHo
             Glide.with(getActivity()).load(path).into(userIcon);
         }
         if (TextUtils.isEmpty(nickname)) {
-            userName.setText("请在设置中填写个人资料");
+            userName.setText("无名人士");
         } else {
             userName.setText(nickname);
         }

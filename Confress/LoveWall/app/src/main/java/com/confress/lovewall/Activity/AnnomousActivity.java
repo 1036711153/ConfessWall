@@ -88,6 +88,11 @@ public class AnnomousActivity extends Activity implements IAnnomousView, View.On
     }
 
     @Override
+    public void NeedLogin() {
+        T.showShort(this,"请先登录呦！");
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:

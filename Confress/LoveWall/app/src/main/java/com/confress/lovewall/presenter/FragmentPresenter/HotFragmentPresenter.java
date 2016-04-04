@@ -43,8 +43,8 @@ public class HotFragmentPresenter {
     private int curPage = 0;
 
     //上拉刷新加载
-    public List<MessageWall> PullDownRefreshqueryData(final Handler mhandler,int page,final Context context) {
-        final   List<MessageWall>messageWalls=new ArrayList<>();
+    public List<MessageWall> PullDownRefreshqueryData(int page, final Context context) {
+        final List<MessageWall> messageWalls = new ArrayList<>();
         messageWallBiz.HotRefreshQueryData(page, new OnQueryListener() {
             @Override
             public void Success(List<MessageWall> list) {
@@ -52,21 +52,15 @@ public class HotFragmentPresenter {
                     for (MessageWall messageWall : list) {
                         messageWalls.add(messageWall);
                     }
-                    Message message=new Message();
-                    message.what=2;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
+                    hotFragmentView.UpdateAdapter(2, messageWalls);
                 } else {
-                    Message message=new Message();
-                    message.what=3;//0代表加载失败 1代表加载成功
-                    mhandler.sendMessage(message);
+                    hotFragmentView.UpdateAdapter(3, messageWalls);
                 }
             }
+
             @Override
             public void Failure() {
-                Message message=new Message();
-                message.what=0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                hotFragmentView.UpdateAdapter(0, messageWalls);
             }
         }, context);
         return messageWalls;
@@ -74,8 +68,8 @@ public class HotFragmentPresenter {
 
 
     //下拉刷新和第一次加载页面方法
-    public List<MessageWall> FirstLoadingData(final Handler mhandler,Context context) {
-        final   List<MessageWall>messageWalls=new ArrayList<>();
+    public List<MessageWall> FirstLoadingData(Context context) {
+        final List<MessageWall> messageWalls = new ArrayList<>();
         messageWallBiz.HotRefreshQueryData(0, new OnQueryListener() {
             @Override
             public void Success(List<MessageWall> list) {
@@ -84,32 +78,21 @@ public class HotFragmentPresenter {
                     for (MessageWall messageWall : list) {
                         messageWalls.add(messageWall);
                     }
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
-                    Log.e("newsFragmentView", "" + messageWalls.size());
+                    hotFragmentView.UpdateAdapter(1, messageWalls);
                 } else {
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
-                    Log.e("newsFragmentView", "" + messageWalls.size());
+                    hotFragmentView.UpdateAdapter(1, messageWalls);
                 }
             }
 
             @Override
             public void Failure() {
-                Log.e("FirstLoadingData", "Failure");
-                Message message=new Message();
-                message.what=0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                hotFragmentView.UpdateAdapter(0, messageWalls);
             }
         }, context);
         return messageWalls;
     }
 
-    public void ChangeCount(MessageWall messageWall,Context context,int collectioncount,int messagecount,int supportcount){
+    public void ChangeCount(MessageWall messageWall, Context context, int collectioncount, int messagecount, int supportcount) {
         messageWallBiz.updateMessageCount(messageWall, collectioncount, messagecount, supportcount, new OnUploadDataListener() {
             @Override
             public void OnSusscess() {
@@ -122,8 +105,9 @@ public class HotFragmentPresenter {
             }
         }, context);
     }
+
     //添加收藏
-    public void CollectionOp(Context context,MessageWall messageWall){
+    public void CollectionOp(Context context, MessageWall messageWall) {
         userBiz.CollectionOp(hotFragmentView.getCurrentUser(), messageWall, new OnUpdateListener() {
             @Override
             public void OnSuccess(User user) {
@@ -139,7 +123,7 @@ public class HotFragmentPresenter {
     }
 
     //取消收藏
-    public void DelCollection(Context context,MessageWall messageWall){
+    public void DelCollection(Context context, MessageWall messageWall) {
         userBiz.DelCollection(hotFragmentView.getCurrentUser(), messageWall, new OnUpdateListener() {
             @Override
             public void OnSuccess(User user) {

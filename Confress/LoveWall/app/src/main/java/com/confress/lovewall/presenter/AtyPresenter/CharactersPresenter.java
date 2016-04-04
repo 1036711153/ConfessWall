@@ -30,6 +30,10 @@ public class CharactersPresenter {
             charactersView.EmptyOfMessage();
             return;
         }
+        if (charactersView.getUser()==null){
+            charactersView.NeedLogin();
+            return;
+        }
         charactersView.showLoading();
         messageWallBiz.uploadMessage(charactersView.getUser(), charactersView.getWallMessage(), new OnUploadDataListener() {
             @Override

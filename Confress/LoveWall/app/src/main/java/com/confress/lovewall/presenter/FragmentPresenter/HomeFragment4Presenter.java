@@ -32,6 +32,10 @@ public class HomeFragment4Presenter {
 
     public  void InitUserData(){
         User currentUser = homeFragment4View.getCurrentUser();
+        if (currentUser==null){
+            homeFragment4View.NeedLogin();
+            return;
+        }
         homeFragment4View.InitUserData(currentUser.getIcon(),currentUser.getNick());
     }
 }

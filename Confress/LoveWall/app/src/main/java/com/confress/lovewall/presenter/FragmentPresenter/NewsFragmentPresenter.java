@@ -37,7 +37,7 @@ public class NewsFragmentPresenter {
     }
 
     //上拉刷新加载
-    public List<MessageWall> PullDownRefreshqueryData(final Handler mhandler,int page,final Context context) {
+    public List<MessageWall> PullDownRefreshqueryData(int page,final Context context) {
         final   List<MessageWall>messageWalls=new ArrayList<>();
         messageWallBiz.NewRefreshQueryData(page, new OnQueryListener() {
             @Override
@@ -46,29 +46,22 @@ public class NewsFragmentPresenter {
                     for (MessageWall messageWall : list) {
                         messageWalls.add(messageWall);
                     }
-                    Message message = new Message();
-                    message.what = 2;//0代表加载失败 1代表加载成功
-                    message.obj = messageWalls;
-                    mhandler.sendMessage(message);
+                    newsFragmentView.UpdateAdapter(2,messageWalls);
                 } else {
-                    Message message = new Message();
-                    message.what = 3;//0代表加载失败 1代表加载成功
-                    mhandler.sendMessage(message);
+                    newsFragmentView.UpdateAdapter(3,messageWalls);
                 }
             }
 
             @Override
             public void Failure() {
-                Message message = new Message();
-                message.what = 0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                newsFragmentView.UpdateAdapter(0,messageWalls);
             }
         }, context);
         return messageWalls;
     }
 
 
-    public List<MessageWall> FirstLoadingData(final Handler mhandler,Context context) {
+    public List<MessageWall> FirstLoadingData(Context context) {
         final   List<MessageWall>messageWalls=new ArrayList<>();
         messageWallBiz.NewRefreshQueryData(0, new OnQueryListener() {
             @Override
@@ -78,23 +71,15 @@ public class NewsFragmentPresenter {
                     for (MessageWall messageWall : list) {
                         messageWalls.add(messageWall);
                     }
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
+                    newsFragmentView.UpdateAdapter(1,messageWalls);
                 } else {
-                    Message message=new Message();
-                    message.what=1;//0代表加载失败 1代表加载成功
-                    message.obj=messageWalls;
-                    mhandler.sendMessage(message);
+                    newsFragmentView.UpdateAdapter(1,messageWalls);
                 }
             }
 
             @Override
             public void Failure() {
-                Message message=new Message();
-                message.what=0;//0代表加载失败 1代表加载成功
-                mhandler.sendMessage(message);
+                newsFragmentView.UpdateAdapter(0,messageWalls);
             }
         }, context);
         return messageWalls;

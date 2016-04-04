@@ -1,22 +1,28 @@
 package com.confress.lovewall.biz;
 
 import android.content.Context;
-import android.text.TextUtils;
+import android.util.Log;
 
 import com.confress.lovewall.biz.IListener.OnAddFriendsListener;
+import com.confress.lovewall.biz.IListener.OnCreateFriendListener;
 import com.confress.lovewall.biz.IListener.OnLoginListener;
 import com.confress.lovewall.biz.IListener.OnQueryFriendsListener;
 import com.confress.lovewall.biz.IListener.OnQueryListener;
 import com.confress.lovewall.biz.IListener.OnQueryUserByIdListener;
 import com.confress.lovewall.biz.IListener.OnRegisterListener;
 import com.confress.lovewall.biz.IListener.OnRememberPsdListener;
+import com.confress.lovewall.biz.IListener.OnUpdateGspListener;
 import com.confress.lovewall.biz.IListener.OnUpdateListener;
+import com.confress.lovewall.biz.IListener.OnUploadDataListener;
+import com.confress.lovewall.model.FriendObject;
+import com.confress.lovewall.model.LocationInfo;
 import com.confress.lovewall.model.MessageWall;
 import com.confress.lovewall.model.User;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
@@ -46,6 +52,28 @@ public class UserBiz implements IUserBiz {
             }
         });
 
+    }
+
+    @Override
+    public void third_login(String uid, String nickname, String icon, final OnLoginListener loginListener, Context context) {
+        User user=new User();
+        user.setUsername(uid);
+        user.setPassword(uid);
+        user.setEmail(uid + "@163.com");
+        user.setNick(nickname);
+        user.setIcon(icon);
+        user.signUp(context, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                loginListener.OnSuccess(null);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                //第三方注册失败说明，这个账号已经注册过了直接可以登录成功即可。。。
+                loginListener.OnFailed();
+            }
+        });
     }
 
     //注册
@@ -174,7 +202,7 @@ public class UserBiz implements IUserBiz {
         muser.setObjectId(user.getObjectId());
         query.addWhereRelatedTo("likes", new BmobPointer(muser));
         query.include("user");
-        query.order("-updatedAt");
+        query.order("-createdAt");
         query.setLimit(20);
         query.setSkip(page * 20);
         query.findObjects(context, new FindListener<MessageWall>() {
@@ -192,22 +220,71 @@ public class UserBiz implements IUserBiz {
 
     }
 
-    //关注
+    //创建FriendObject对象
     @Override
-    public void AddFriends(User user, User friend, final OnAddFriendsListener addFriendsListener, Context context) {
+    public void CreateFriendObject(String friendId, final OnCreateFriendListener createFriendListener, Context context) {
+        final FriendObject friendObject=new FriendObject();
+        User friend=new User();
+        friend.setObjectId(friendId);
+        friendObject.setUser(friend);
+        friendObject.setTricks(null);
+        friendObject.save(context, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                createFriendListener.OnSuccess(friendObject);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                createFriendListener.OnFailed();
+            }
+        });
+
+    }
+
+    //添加好友
+    @Override
+    public void AddFriends(final User user,String friendId, final OnAddFriendsListener addFriendsListener,final Context context) {
         User myUser = new User();
         myUser.setObjectId(user.getObjectId());
+
         BmobRelation relation = new BmobRelation();
-        relation.add(friend);
+
+        User friendObject=new User();
+        friendObject.setObjectId(friendId);
+
+        relation.add(friendObject);
         myUser.setFriends(relation);
         myUser.update(context, new UpdateListener() {
             @Override
             public void onSuccess() {
                 addFriendsListener.OnSuccess();
             }
+            @Override
+            public void onFailure(int i, String s) {
+                addFriendsListener.OnFailed();
+            }
+        });
+    }
+
+    @Override
+    public void AddFriends2(User user, User friend,final OnAddFriendsListener addFriendsListener, Context context) {
+        Log.e("AddFriends2","AddFriends2");
+        User myUser2 = new User();
+        myUser2.setObjectId(friend.getObjectId());
+        BmobRelation relation2 = new BmobRelation();
+        relation2.add(user);
+        myUser2.setFriends(relation2);
+        myUser2.update(context, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                Log.e("AddFriends2","AddFriends2Success");
+                addFriendsListener.OnSuccess();
+            }
 
             @Override
             public void onFailure(int i, String s) {
+                Log.e("AddFriends2","AddFriends2Failure"+s);
                 addFriendsListener.OnFailed();
             }
         });
@@ -240,7 +317,7 @@ public class UserBiz implements IUserBiz {
         User muser = new User();
         muser.setObjectId(user.getObjectId());
         query.addWhereRelatedTo("friends", new BmobPointer(muser));
-        query.order("-updatedAt");
+        query.order("-createdAt");
         query.setLimit(20);
         query.setSkip(page * 20);
         query.findObjects(context, new FindListener<User>() {
@@ -256,13 +333,36 @@ public class UserBiz implements IUserBiz {
         });
 
     }
+    //通过经纬度查找附近墙友
+    @Override
+    public void QueryNearFriends(int page, BmobGeoPoint gpsadd,final OnQueryFriendsListener queryFriendsListener, Context context) {
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.addWhereNear("gpsadd", new BmobGeoPoint(gpsadd.getLongitude(),gpsadd.getLatitude()));
+        query.setLimit(20);
+        query.setSkip(page * 20);
+        query.findObjects(context, new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                queryFriendsListener.Success(list);
+                Log.e("USERBIZ",""+list.size());
+            }
+            @Override
+            public void onError(int code, String msg) {
+                // TODO Auto-generated method stub
+               queryFriendsListener.Failure();
+                Log.e("USERBIZ", "" + msg);
+            }
+        });
+
+
+    }
 
     //根据ID查找User
     @Override
     public void QueryUserById(String userId, final OnQueryUserByIdListener queryUserByIdListener, Context context) {
         final BmobQuery<User> query = new BmobQuery<User>();
         query.addWhereEqualTo("objectId", userId);
-        query.order("-updatedAt");
+        query.order("-createdAt");
         query.findObjects(context, new FindListener<User>() {
             @Override
             public void onSuccess(List<User> list) {
@@ -279,5 +379,20 @@ public class UserBiz implements IUserBiz {
         });
     }
 
+    @Override
+    public void UpdateLocation(User user,LocationInfo locationInfo, final OnUpdateGspListener onUpdateGspListener, Context context) {
+        user.setAddress(locationInfo.getAddress());
+        user.setGpsadd(new BmobGeoPoint(locationInfo.getLongtitude(), locationInfo.getLatitude()));
+        user.update(context, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                onUpdateGspListener.OnSuccess();
+            }
 
+            @Override
+            public void onFailure(int i, String s) {
+                onUpdateGspListener.OnFailed();
+            }
+        });
+    }
 }

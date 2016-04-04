@@ -12,4 +12,5 @@ public interface IHomeFragment4View  {
     User getCurrentUser();
     Context getContext();
     void InitUserData(String path,String usernam);
+    void NeedLogin();
 }

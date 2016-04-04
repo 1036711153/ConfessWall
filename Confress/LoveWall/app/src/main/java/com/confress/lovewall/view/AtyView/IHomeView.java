@@ -33,5 +33,6 @@ public interface IHomeView {
     void showPop();
     void hidePop();
     User getCurrentUser();
+    void NeedLogin();
 
 }

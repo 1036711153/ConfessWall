@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/zuojian1" android:state_enabled="false" android:state_pressed="false"/>
-    <item android:drawable="@drawable/zuojian2" android:state_enabled="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/ic_menu_forward" android:state_enabled="false" android:state_pressed="false"/>
+    <item android:drawable="@drawable/takeout_ic_back_disabled" android:state_enabled="true" android:state_pressed="true"/>
 
 </selector>

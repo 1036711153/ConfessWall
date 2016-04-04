@@ -1,12 +1,12 @@
 package com.confress.lovewall.Activity;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
+import android.Manifest;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +14,25 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
-import com.confress.lovewall.Utils.ScreenUtil;
-import com.confress.lovewall.model.MyBmobInstallation;
-import com.confress.lovewall.model.User;
-import com.confress.lovewall.view.CustomView.ChangeColorIconWithText;
-import com.confress.lovewall.view.CustomView.SmallBang;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.confress.lovewall.Fragment.HomeFragment1;
 import com.confress.lovewall.Fragment.HomeFragment2;
 import com.confress.lovewall.Fragment.HomeFragment3;
 import com.confress.lovewall.Fragment.HomeFragment4;
 import com.confress.lovewall.R;
 import com.confress.lovewall.Utils.T;
+import com.confress.lovewall.Utils.Utils;
+import com.confress.lovewall.model.LocationInfo;
+import com.confress.lovewall.model.User;
 import com.confress.lovewall.presenter.AtyPresenter.HomePresenter;
 import com.confress.lovewall.view.AtyView.IHomeView;
+import com.confress.lovewall.view.CustomView.ChangeColorIconWithText;
+import com.confress.lovewall.view.CustomView.SmallBang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +41,19 @@ import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
+import kr.co.namee.permissiongen.PermissionFail;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
 
 /**
  * Created by admin on 2016/3/5.
  */
-public class HomeActivity extends FragmentActivity implements IHomeView, View.OnClickListener {
-    private HomePresenter homePresenter;
+public class HomeActivity extends FragmentActivity implements IHomeView, View.OnClickListener,AMapLocationListener {
+    private AMapLocationClient locationClient = null;
+    private AMapLocationClientOption locationOption = null;
 
+
+    private HomePresenter homePresenter;
     private SmallBang mSmallbang;
     private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
     private ChangeColorIconWithText one, two, three, four;
@@ -51,8 +62,8 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
     private View conterview;
     private View parent;
     private static LinearLayout main_bottom;
-    public static final String TAG="HomeActivity";
-    private HomeFragment3 homeFragment3=new HomeFragment3();
+    public static final String TAG = "HomeActivity";
+    private HomeFragment3 homeFragment3 = new HomeFragment3();
 
 
     @Override
@@ -60,6 +71,16 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         initId();
+        //缓存用户不为空时候开始定位
+        if (getCurrentUser()!=null) {
+            //申请权限。。对于6.0以上机器。。。
+            PermissionGen.with(HomeActivity.this)
+                    .addRequestCode(100)
+                    .permissions(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    ).request();
+        }
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
@@ -70,15 +91,48 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
         conterview.findViewById(R.id.Note).setOnClickListener(this);
         conterview.findViewById(R.id.more).setOnClickListener(this);
         conterview.findViewById(R.id.back).setOnClickListener(this);
-
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                     int[] grantResults) {
+        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionSuccess(requestCode = 100)
+    public  void doLocation(){
+        InitLocation();
+    }
+
+    @PermissionFail(requestCode = 100)
+    public void doFailSomething(){
+        Toast.makeText(this, "获取定位权限失败！", Toast.LENGTH_SHORT).show();
+    }
+
+    private void InitLocation() {
+        // 设置是否需要显示地址信息
+        locationOption.setNeedAddress(true);
+        /**
+         *  设置发送定位请求的时间间隔,最小值为1000，如果小于1000，按照1000算
+         *  只有持续定位设置定位间隔才有效，单次定位无效
+         */
+        locationOption.setInterval(Long.valueOf(1000));
+        //单次定位
+        locationOption.setOnceLocation(true);
+        locationClient.setLocationOption(locationOption);
+        // 启动定位
+        locationClient.startLocation();
+        mHandler.sendEmptyMessage(Utils.MSG_LOCATION_START);
+    }
+
+
 
     private void initId() {
         // 使用推送服务时的初始化操作
+        Bmob.initialize(this, "766e2d78b852727f6a4be394c0af7237");
         BmobInstallation.getCurrentInstallation(this).save();
         // 启动推送服务
-        BmobPush.startWork(this,"");
-        main_bottom= (LinearLayout) findViewById(R.id.main_bottom);
+        BmobPush.startWork(this, "");
+        main_bottom = (LinearLayout) findViewById(R.id.main_bottom);
         center_message = (Button) findViewById(R.id.center_message);
         one = (ChangeColorIconWithText) findViewById(R.id.id_indicator_one);
         mTabIndicators.add(one);
@@ -95,7 +149,6 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
         one.setIconAlpha(1.0f);
         //初始化数据第一页
         click_indicator_one();
-
         conterview = getLayoutInflater().inflate(R.layout.add_pop_main, null);
         popupWindow = new PopupWindow(conterview,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -107,8 +160,16 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
         parent = findViewById(R.id.linearlayout1);
         //绑定用户
         homePresenter.BindUserInstallation();
-    }
 
+
+
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        locationOption = new AMapLocationClientOption();
+        // 设置定位模式为低功耗模式
+        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        // 设置定位监听
+        locationClient.setLocationListener(this);
+    }
 
     @Override
     public void onClick(View v) {
@@ -129,23 +190,31 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
                 homePresenter.Write_Message(v);
                 break;
             case R.id.characters:
-//                T.showShort(getApplicationContext(), "characters");
+                if (getCurrentUser() == null) {
+                    NeedLogin();
+                    return;
+                }
                 homePresenter.toCharactersFragement(1);
                 break;
 
             case R.id.image_characters:
-//                T.showShort(getApplicationContext(), "image_characters");
+                if (getCurrentUser() == null) {
+                    NeedLogin();
+                    return;
+                }
                 homePresenter.toCharactersFragement(2);
                 break;
 
             case R.id.Note:
-//                T.showShort(getApplicationContext(), "Note");
+                if (getCurrentUser() == null) {
+                    NeedLogin();
+                    return;
+                }
                 homePresenter.toCharactersFragement(3);
                 break;
 
             case R.id.more:
                 T.showShort(getApplicationContext(), "Sorry，没有更多了！");
-//                homePresenter.toCharactersFragement(4);
                 break;
 
             case R.id.back:
@@ -155,7 +224,7 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
     }
 
     @Override
-    public  void click_indicator_one() {
+    public void click_indicator_one() {
         getSupportFragmentManager().beginTransaction().replace(R.id.container_main, new HomeFragment1()).commit();
     }
 
@@ -173,14 +242,14 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
 
     @Override
     public void click_indicator_four() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_main,new HomeFragment4()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_main, new HomeFragment4()).commit();
 
     }
 
     @Override
     public void click_indicator_center() {
         showPop();
-     }
+    }
 
     @Override
     public void click_pop(int i) {
@@ -198,7 +267,7 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
 
     @Override
     public User getCurrentUser() {
-        return BmobUser.getCurrentUser(this,User.class);
+        return BmobUser.getCurrentUser(this, User.class);
     }
 
 
@@ -210,6 +279,8 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
     }
 
 
+
+
     class poponDismissListener implements PopupWindow.OnDismissListener {
 
         @Override
@@ -218,19 +289,66 @@ public class HomeActivity extends FragmentActivity implements IHomeView, View.On
         }
     }
 
-    public static  void  hideMainBottom(){
+    public static void hideMainBottom() {
         main_bottom.setVisibility(View.GONE);
     }
-    public static  void showMainBottom(){
-        main_bottom.setVisibility(View.VISIBLE);
-    }
-    public static  void  ToFirstFragment(){
 
+    public static void showMainBottom() {
+        main_bottom.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        homePresenter=null;
+        homePresenter = null;
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
     }
+    @Override
+    public void NeedLogin() {
+        T.showShort(this, "请先登录呦！");
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation loc) {
+        if (null != loc) {
+            Message msg = mHandler.obtainMessage();
+            msg.obj = loc;
+            msg.what = Utils.MSG_LOCATION_FINISH;
+            mHandler.sendMessage(msg);
+        }
+    }
+
+    Handler mHandler = new Handler(){
+        public void dispatchMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case Utils.MSG_LOCATION_START:
+                    break;
+                //定位完成
+                case Utils.MSG_LOCATION_FINISH:
+                    AMapLocation loc = (AMapLocation)msg.obj;
+                    LocationInfo locationInfo = Utils.getLocationInfo(loc);
+                    if (TextUtils.isEmpty(locationInfo.getAddress())&&locationInfo.getLatitude()==0&&locationInfo.getLongtitude()==0){
+                        T.showShort(getApplicationContext(),"定位失败！");
+                    }else {
+                        //定位成功
+                        homePresenter.UpdateGspLocation(locationInfo);
+                    }
+                    break;
+                case Utils.MSG_LOCATION_STOP:
+                    break;
+                default:
+                    break;
+            }
+        };
+    };
+
+
 }

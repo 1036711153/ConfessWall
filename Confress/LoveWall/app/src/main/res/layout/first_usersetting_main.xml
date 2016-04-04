@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+
+        >
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dip"
+        android:layout_marginBottom="20dip"
+        android:id="@+id/change_image"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="true"
+        android:orientation="vertical" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/user_icon"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/wall"
+            imagecontrol:civ_border_width="1dp"
+            imagecontrol:civ_border_color="@color/blue"
+             />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="更换头像"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    </RelativeLayout>
+    <LinearLayout style="@style/Register_Input"
+         >
+
+        <TextView
+            android:gravity="center"
+            android:textColor="#212424"
+            android:layout_height="match_parent"
+            android:layout_width="100dip"
+            android:text="昵称:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nickname"
+            style="@style/Register_Edit"
+            android:singleLine="true"
+            android:maxLength="15"
+            android:ems="15"
+            android:hint="请输入昵称" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/Register_Input"
+        android:layout_marginTop="20dip" >
+
+        <TextView
+            android:gravity="center"
+            android:textColor="#212424"
+            android:layout_height="match_parent"
+            android:layout_width="100dip"
+            android:text="性别:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:checked="true"
+                android:text="男"/>
+            <RadioButton
+                android:id="@+id/radio_woman"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="女"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout style="@style/Register_Input"
+        android:layout_marginTop="20dip" >
+
+        <TextView
+            android:gravity="center"
+            android:textColor="#212424"
+            android:layout_height="match_parent"
+            android:layout_width="100dip"
+            android:text="年龄:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/age"
+            style="@style/Register_Edit"
+            android:digits="1234567890"
+            android:ems="3"
+            android:maxLength="3"
+            android:singleLine="true"
+            android:hint="请输入年龄" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/Register_Input"
+        android:layout_marginTop="20dip" >
+
+        <TextView
+            android:gravity="center"
+            android:textColor="#212424"
+            android:layout_height="match_parent"
+            android:layout_width="100dip"
+            android:text="格言:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/tel"
+            style="@style/Register_Edit"
+            android:ems="2"
+            android:maxLength="50"
+            android:singleLine="false"
+            android:hint="请输入您的代表性格言" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/base_action_bar_height"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@drawable/btn_login_selector"
+        android:text="保存"
+        android:textColor="@color/White"
+        android:textSize="@dimen/text_size_large" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="您的资料可被他人看到注意，可不填写完整！"
+        android:textColor="@color/Red" />
+
+</LinearLayout>

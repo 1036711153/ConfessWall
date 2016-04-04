@@ -63,7 +63,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="同道大叔"
+                    android:text="无名人士"
                     android:textColor="#E54017"
                     android:textSize="15sp" />
                 </LinearLayout>

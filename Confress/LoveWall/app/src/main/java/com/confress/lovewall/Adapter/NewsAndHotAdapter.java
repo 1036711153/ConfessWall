@@ -40,20 +40,20 @@ public class NewsAndHotAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public OnMyItemClickListener mOnItemClickListener;
-
-    public void setMyOnItemClickListener(OnMyItemClickListener listener) {
-        this.mOnItemClickListener = listener;
-    }
-
-
-    public interface OnMyItemClickListener {
-        void onSupportClick(View view, int position,MessageWall messageWall,boolean isClick,ImageView imageView,TextView textView);
-        void onCollectionClick(View view, int position,MessageWall messageWall,boolean isClick,ImageView imageView,TextView textView);
-        void onConmmentClick(View view, int position,MessageWall messageWall);
-        void onContentClick(View view, int position,MessageWall messageWall);
-        void onUserIconClick(View view, int position,MessageWall messageWall);
-    }
+//    public OnMyItemClickListener mOnItemClickListener;
+//
+//    public void setMyOnItemClickListener(OnMyItemClickListener listener) {
+//        this.mOnItemClickListener = listener;
+//    }
+//
+//
+//    public interface OnMyItemClickListener {
+////        void onSupportClick(View view, int position,MessageWall messageWall,boolean isClick,ImageView imageView,TextView textView);
+////        void onCollectionClick(View view, int position,MessageWall messageWall,boolean isClick,ImageView imageView,TextView textView);
+////        void onConmmentClick(View view, int position,MessageWall messageWall);
+////        void onContentClick(View view, int position,MessageWall messageWall);
+////        void onUserIconClick(View view, int position,MessageWall messageWall);
+//    }
 
     @Override
     public int getCount() {
@@ -131,42 +131,42 @@ public class NewsAndHotAdapter extends BaseAdapter {
         hoder.message_count.setText(messageWallitem.getComment_count() + "");
         hoder.support_count.setText(messageWallitem.getSupport_count() + "");
 
-        final ViewHoder finalHoder = hoder;
-        hoder.collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iscollectionclick[0] =!iscollectionclick[0];
-                mOnItemClickListener.onCollectionClick(v, position,messageWallitem, iscollectionclick[0], finalHoder.collection_image,finalHoder.collection_count);
-            }
-        });
-        hoder.message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onConmmentClick(v, position,messageWallitem);
-            }
-        });
-        hoder.support.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                issupportclick[0] =!issupportclick[0];
-                mOnItemClickListener.onSupportClick(v, position,messageWallitem, issupportclick[0],finalHoder.support_image,finalHoder.support_count);
-            }
-        });
-        //点击内容
-        hoder.content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onContentClick(v, position,messageWallitem);
-            }
-        });
-        //点击人头像
-        hoder.user_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onUserIconClick(v, position,messageWallitem);
-            }
-        });
+//        final ViewHoder finalHoder = hoder;
+//        hoder.collection.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                iscollectionclick[0] =!iscollectionclick[0];
+//                mOnItemClickListener.onCollectionClick(v, position,messageWallitem, iscollectionclick[0], finalHoder.collection_image,finalHoder.collection_count);
+//            }
+//        });
+//        hoder.message.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mOnItemClickListener.onConmmentClick(v, position,messageWallitem);
+//            }
+//        });
+//        hoder.support.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                issupportclick[0] =!issupportclick[0];
+//                mOnItemClickListener.onSupportClick(v, position,messageWallitem, issupportclick[0],finalHoder.support_image,finalHoder.support_count);
+//            }
+//        });
+//        //点击内容
+//        hoder.content.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mOnItemClickListener.onContentClick(v, position,messageWallitem);
+//            }
+//        });
+//        //点击人头像
+//        hoder.user_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mOnItemClickListener.onUserIconClick(v, position,messageWallitem);
+//            }
+//        });
 
         return convertView;
     }

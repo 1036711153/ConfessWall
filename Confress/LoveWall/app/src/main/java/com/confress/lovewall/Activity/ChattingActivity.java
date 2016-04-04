@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.confress.lovewall.BroadcastReceiver.MyPushMessageReceiver;
 import com.confress.lovewall.R;
 import com.confress.lovewall.Utils.T;
+import com.confress.lovewall.model.MsgGosn;
 import com.confress.lovewall.model.User;
 import com.confress.lovewall.presenter.AtyPresenter.ChattingPresenter;
 import com.confress.lovewall.view.AtyView.IChattingView;
@@ -24,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by admin on 2016/3/17.
  */
-public class ChattingActivity extends Activity implements IChattingView, View.OnClickListener {
+public class ChattingActivity extends Activity implements IChattingView, View.OnClickListener{
     @Bind(R.id.back)
     ImageView back;
     @Bind(R.id.friend_name)
@@ -124,4 +126,6 @@ public class ChattingActivity extends Activity implements IChattingView, View.On
         super.onDestroy();
         presenter=null;
     }
+
+
 }

@@ -1,4 +1,31 @@
 <resources>
+    <string name="auth_error">授权登录失败</string>
+    <string name="auth_complete">授权登录成功</string>
+    <string name="sm_item_auth">ShareSDK授权demo</string>
+    <string name="not_yet_authorized">尚未授权</string>
+    <string name="close_info_dialog">关闭信息界面</string>
+    <string name="login_to_format">登陆到%s</string>
+    <string name="remove_to_format">注销%s登录</string>
+    <string name="remove_to_format_success">成功移除%s登录信息</string>
+
+    <string name="register_key_user_icon">头像:</string>
+    <string name="register_key_user_name">昵称:</string>
+    <string name="register_key_user_gender">性别:</string>
+    <string name="register_key_user_UID">U I D:</string>
+    <string name="register_key_user_mail">邮箱:</string>
+    <string name="register_key_user_password">密码:</string>
+
+    <string name="register_user_info">用户信息</string>
+    <string name="register_up">注册</string>
+    <string name="register_girl">女</string>
+    <string name="register_boy">男</string>
+    <string name="register_UserID">UserID不能修改</string>
+    <string name="tpl_no_sdcard">sdcard 卡不存在</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_failed">注册失败</string>
+
+    <string name="wechat_client_inavailable">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
+    <string name="google_plus_client_inavailable">Google+ 版本过低或者没有安装，需要升级或安装Google+才能使用！</string>
      <string name="cheese_ipsum">欢迎您使用本人开发的表白墙APP，随着时间迁移，安卓的发展正在飞速前进，为了能更好的提供给大家便捷服务，请留下您宝贵的意见，我们会及时反馈并且听取您的意见做出相关改善！.</string>
     <string name="checkin">Checkin</string>
     <string name="menu_settings">Settings</string>

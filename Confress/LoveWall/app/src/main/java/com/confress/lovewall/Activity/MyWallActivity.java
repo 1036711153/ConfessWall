@@ -59,34 +59,6 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
     private MyWallPresenter myCollectionPresenter = new MyWallPresenter(this, MyWallActivity.this);
     private List<MessageWall> messageWalls;
     private MyParallaxRecyclerAdapter adapter;
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            hideLoading();
-            if (msg.what == 0) {
-                Failure();
-            } else if (msg.what == 1) {
-                messageWalls.addAll((List<MessageWall>) msg.obj);
-                if (messageWalls.size() > 0) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    T.showShort(getApplicationContext(), "没有数据！");
-                }
-            } else if (msg.what == 2) {
-                if (messageWalls.size() > 0) {
-                    messageWalls.addAll((List<MessageWall>) msg.obj);
-                    adapter.notifyDataSetChanged();
-                    currentpage++;
-                }
-            } else if (msg.what == 3) {
-                T.showShort(getApplicationContext(), "没有更多数据了！");
-            }
-
-            mRefresh.finishRefresh();
-            mRefresh.finishRefreshLoadMore();
-            Log.e("messageWalls", "" + messageWalls.size());
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +74,7 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                myCollectionPresenter.FirstLoadingData(mhandler, MyWallActivity.this);
+                myCollectionPresenter.FirstLoadingData(MyWallActivity.this);
                 currentpage = 1;
             }
         }).start();
@@ -115,12 +87,13 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
                 //下拉刷新...与第一次加载数据一样
                 currentpage = 1;
                 messageWalls.clear();
-                myCollectionPresenter.FirstLoadingData(mhandler, MyWallActivity.this);
+                myCollectionPresenter.FirstLoadingData( MyWallActivity.this);
             }
+
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 //上拉刷新...
-                myCollectionPresenter.PullDownRefreshqueryData(mhandler, currentpage, MyWallActivity.this);
+                myCollectionPresenter.PullDownRefreshqueryData(currentpage, MyWallActivity.this);
                 // 结束上拉刷新...
             }
         });
@@ -157,7 +130,6 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
                 startActivity(intent);
             }
         });
-
     }
 
     private void InitToolBar() {
@@ -174,17 +146,6 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
             }
         });
     }
-
-    @Override
-    public void showLoading() {
-        idProgress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        idProgress.setVisibility(View.INVISIBLE);
-    }
-
     @Override
     public void Failure() {
         T.showShort(this, "加载数据失败！！");
@@ -193,6 +154,37 @@ public class MyWallActivity extends AppCompatActivity implements IMyWallView {
     @Override
     public User getCurrentUser() {
         return BmobUser.getCurrentUser(this, User.class);
+    }
+
+    @Override
+    public void UpdateAdapter(int size, List<MessageWall> ImessageWalls) {
+        if (size==0){
+            Failure();
+        }else if (size==1){
+            messageWalls.addAll(ImessageWalls);
+            if (messageWalls.size()>0){
+                adapter.notifyDataSetChanged();
+            }else {
+                T.showShort(getApplicationContext(), "没有数据！");
+            }
+        }else  if (size==2){
+            if (messageWalls.size() > 0) {
+                messageWalls.addAll(ImessageWalls);
+                adapter.notifyDataSetChanged();
+                currentpage++;
+            }
+        }else  if (size==3){
+            T.showShort(getApplicationContext(), "没有更多数据了！");
+        }
+        LoadOver();
+    }
+
+    @Override
+    public void LoadOver() {
+        if (mRefresh!=null) {
+            mRefresh.finishRefresh();
+            mRefresh.finishRefreshLoadMore();
+        }
     }
 
     @Override

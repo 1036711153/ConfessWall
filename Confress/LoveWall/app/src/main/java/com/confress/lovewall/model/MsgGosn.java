@@ -10,6 +10,25 @@ public class MsgGosn implements Serializable{
     private String id;
     private String msg;
     private String icon;
+    private boolean isaddfriend;
+    private boolean recieveaddfriend;
+
+
+    public boolean isRecieveaddfriend() {
+        return recieveaddfriend;
+    }
+
+    public void setRecieveaddfriend(boolean recieveaddfriend) {
+        this.recieveaddfriend = recieveaddfriend;
+    }
+
+    public boolean isaddfriend() {
+        return isaddfriend;
+    }
+
+    public void setIsaddfriend(boolean isaddfriend) {
+        this.isaddfriend = isaddfriend;
+    }
 
     public String getIcon() {
         return icon;

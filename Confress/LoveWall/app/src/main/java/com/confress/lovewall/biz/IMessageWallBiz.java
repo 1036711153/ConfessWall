@@ -3,6 +3,7 @@ package com.confress.lovewall.biz;
 import android.content.Context;
 
 import com.confress.lovewall.biz.IListener.OnQueryListener;
+import com.confress.lovewall.biz.IListener.OnUpdateCommentCountListener;
 import com.confress.lovewall.biz.IListener.OnUpdateListener;
 import com.confress.lovewall.biz.IListener.OnUploadDataListener;
 import com.confress.lovewall.biz.IListener.OnUploadPictureListener;
@@ -32,5 +33,14 @@ public interface IMessageWallBiz {
 //    void DelCollection(User user,MessageWall messageWall,OnUpdateListener updateListener,Context context);
 
     void updateMessageCount(MessageWall messageWall,int colletioncount,int commentcount,int supportcount,OnUploadDataListener uploadDataListener,Context context);
+
+    void AddCommentCount(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
+    void DelCommentCount(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
+
+    void AddSupport(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
+    void DelSupport(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
+
+    void AddCollection(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
+    void DelCollection(MessageWall messageWall,OnUpdateCommentCountListener uploadDataListener,Context context);
 
 }

@@ -10,7 +10,7 @@
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:orientation="horizontal"
-     android:gravity="center_vertical">
+     android:gravity="left">
      <de.hdodenhof.circleimageview.CircleImageView
          android:id="@+id/friend_icon"
          android:layout_width="40dp"
@@ -22,8 +22,8 @@
     <LinearLayout
         android:id="@+id/left_layout"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="left"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
         android:background="@drawable/message_left" >
 
         <TextView
@@ -37,6 +37,7 @@
  </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
@@ -44,8 +45,9 @@
 
     <LinearLayout
         android:id="@+id/right_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/message_right" >
 
         <TextView

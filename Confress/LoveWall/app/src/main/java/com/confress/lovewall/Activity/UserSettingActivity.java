@@ -9,16 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.confress.lovewall.Fragment.HomeFragment4;
 import com.confress.lovewall.R;
 import com.confress.lovewall.Utils.PhotoViewUtils;
 import com.confress.lovewall.Utils.T;
 import com.confress.lovewall.model.User;
 import com.confress.lovewall.presenter.AtyPresenter.UserSettingActivityPresenter;
-import com.confress.lovewall.presenter.FragmentPresenter.HomeFragment4Presenter;
 import com.confress.lovewall.view.AtyView.IUserSettingView;
 
 import butterknife.Bind;
@@ -37,8 +36,6 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
     LinearLayout changeImage;
     @Bind(R.id.nickname)
     EditText nickname;
-    @Bind(R.id.sex)
-    EditText sex;
     @Bind(R.id.age)
     EditText age;
     @Bind(R.id.tel)
@@ -49,8 +46,12 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
     private static final int IMAGE_REQUEST_CODE1 = 0;
     //拍照
     private static final int IMAGE_REQUEST_CODE2 = 0;
+    @Bind(R.id.radio_man)
+    RadioButton radioMan;
+    @Bind(R.id.radio_woman)
+    RadioButton radioWoman;
 
-    private UserSettingActivityPresenter userSettingActivityPresenter=new UserSettingActivityPresenter(this,UserSettingActivity.this);
+    private UserSettingActivityPresenter userSettingActivityPresenter = new UserSettingActivityPresenter(this, UserSettingActivity.this);
 
 
     @Override
@@ -68,9 +69,9 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.submit:
                 userSettingActivityPresenter.UpdataUserData();
-                Intent intent2=new Intent();
-                intent2.putExtra("nickname",getNickName());
-                intent2.putExtra("icon",getCurrentUser().getIcon());
+                Intent intent2 = new Intent();
+                intent2.putExtra("nickname", getNickName());
+                intent2.putExtra("icon", getCurrentUser().getIcon());
                 UserSettingActivity.this.setResult(1, intent2);
                 UserSettingActivity.this.finish();
                 break;
@@ -95,12 +96,20 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
 
     @Override
     public String getSex() {
-        return sex.getText().toString();
+        if (radioMan.isChecked()){
+            return "男";
+        }else {
+            return "女";
+        }
     }
 
     @Override
     public void setSex(User user) {
-        sex.setText(user.getSex());
+        if (user.getSex().equals("女")){
+            radioWoman.setChecked(true);
+        }else {
+            radioMan.setChecked(true);
+        }
     }
 
     @Override
@@ -110,7 +119,11 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
 
     @Override
     public void setAge(User user) {
-        age.setText(user.getAge() + "");
+        if (user.getAge() == null) {
+            age.setText(18 + "");
+        } else {
+            age.setText(user.getAge() + "");
+        }
     }
 
     @Override
@@ -130,9 +143,9 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
 
     @Override
     public void setUserIcon(User user) {
-        if (TextUtils.isEmpty(user.getIcon())){
+        if (TextUtils.isEmpty(user.getIcon())) {
             userIcon.setImageResource(R.drawable.wall);
-        }else {
+        } else {
             Glide.with(UserSettingActivity.this).load(user.getIcon()).into(userIcon);
         }
     }
@@ -190,6 +203,6 @@ public class UserSettingActivity extends Activity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userSettingActivityPresenter=null;
+        userSettingActivityPresenter = null;
     }
 }

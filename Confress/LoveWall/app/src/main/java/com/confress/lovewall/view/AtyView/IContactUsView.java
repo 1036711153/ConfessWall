@@ -10,4 +10,5 @@ public interface IContactUsView {
     String getContent();
     void Success();
     void Failure();
+    void NeedLogin();
 }

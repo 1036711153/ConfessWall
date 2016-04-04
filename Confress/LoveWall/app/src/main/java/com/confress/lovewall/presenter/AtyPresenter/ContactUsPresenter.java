@@ -22,6 +22,10 @@ public class ContactUsPresenter {
     }
 
     public  void uploadSuggestion(){
+        if (contactUsView.getUser()==null){
+            contactUsView.NeedLogin();
+            return;
+        }
         suggestionBiz.Suggest(contactUsView.getUser(),contactUsView.getContent(),new OnSuggestionListener() {
             @Override
             public void OnSusscess() {

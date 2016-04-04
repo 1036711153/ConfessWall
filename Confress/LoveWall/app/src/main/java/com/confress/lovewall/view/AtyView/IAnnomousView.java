@@ -17,4 +17,5 @@ public interface IAnnomousView {
     void showLoading();
     void hideLoading();
     void back();
+    void NeedLogin();
 }
