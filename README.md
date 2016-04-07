@@ -9,8 +9,13 @@
 ![image](https://github.com/1036711153/ConfessWall/blob/master/Screenshot_2016-03-23-17-42-21_com.confress.lovew.png?raw=true)
 ![image](https://github.com/1036711153/ConfessWall/blob/master/Screenshot_2016-03-23-17-42-33_com.confress.lovew.png?raw=true)
 ![image](https://github.com/1036711153/ConfessWall/blob/master/Screenshot_2016-03-23-17-42-39_com.confress.lovew.png?raw=true)
+
+
 总得效果图：
 ![image](https://github.com/1036711153/ConfessWall/blob/master/aGIF.gif?raw=true)
+
+
+
 即时通讯聊天
 ![image](https://github.com/1036711153/ConfessWall/blob/master/aaa1.gif?raw=true)
 
